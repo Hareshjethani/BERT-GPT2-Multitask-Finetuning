@@ -1,175 +1,143 @@
-🌟 NLP Dual Fine-Tuning Suite
+# 🌟 NLP Dual Fine-Tuning Suite
+### BERT-based Sentiment Classification + GPT-2/LLaMA Pseudo-code → Python Code Generation
 
-BERT-based Sentiment Classification + GPT-2/LLaMA Pseudo-code → Python Code Generation
+This repository contains two advanced NLP tasks using Transformer architectures:
 
-Yeh repository do advanced NLP tasks rakhti hai:
+1. **Task 1 — Encoder-Only (BERT): Customer Feedback Sentiment Classification**  
+2. **Task 2 — Decoder-Only (GPT-2/LLaMA): Pseudo-code to Python Code Generation**
 
-Task 1 — Encoder-only (BERT): Customer Feedback Sentiment Classification
+Both tasks include preprocessing, model fine-tuning, evaluation, and example predictions.  
+This project is ideal for learning end-to-end NLP workflows and model training.
 
-Task 2 — Decoder-only (GPT-2/LLaMA): Pseudo-code se Python Code Generation
+---
 
-Project end-to-end workflow: preprocessing, training, evaluation, example predictions.
+# 📁 Project Structure
+NLP-Dual-Finetuning-Suite/
+│
+├── task1_bert_sentiment/
+│ ├── preprocessing.py
+│ ├── train.py
+│ ├── evaluate.py
+│ └── samples/
+│
+├── task2_gpt2_code_generation/
+│ ├── preprocess_pairs.py
+│ ├── train_gpt2.py
+│ ├── evaluate_code.py
+│ ├── app.py # Streamlit/Gradio Interface
+│ └── examples/
+│
+├── README.md
+└── requirements.txt
 
-Project Structure (suggested folders and files)
+markdown
+Copy code
 
-task1_bert_sentiment/
+---
 
-preprocessing.py
+# 🧠 Task 1: BERT — Customer Feedback Sentiment Classification
 
-train.py
+## Objective
+Fine-tune a BERT model to classify customer feedback into:
+- Positive
+- Negative
+- Neutral
 
-evaluate.py
+### Dataset
+Kaggle: *Customer Feedback Dataset*  
+https://www.kaggle.com/datasets/vishweshsalodkar/customer-feedback-dataset
 
-samples/
+### Preprocessing & Tokenization
+- Removed missing/duplicate text
+- Cleaned text (lowercase, punctuation handling)
+- Tokenized using BERT Tokenizer
+- Max length: 128 tokens
+- Train/Validation split: 80/20
 
-task2_gpt2_code_generation/
+### Training Pipeline
+- Model: **bert-base-uncased**
+- Loss: CrossEntropyLoss
+- Batch size: 16
+- Optimizer: AdamW
+- Warmup steps + linear learning rate scheduler
+- Training for 3–5 epochs
 
-preprocess_pairs.py
+### Evaluation Metrics
+- Accuracy
+- F1-score (macro & weighted)
+- Confusion Matrix
 
-train_gpt2.py
-
-evaluate_code.py
-
-app.py (Streamlit/Gradio Interface)
-
-examples/
-
-README.md
-
-requirements.txt
-
-🧠 Task 1: BERT — Customer Feedback Sentiment Classification
-Objective
-
-Fine-tune ek BERT model jo customer feedback ko teen classes mein classify kare: Positive, Negative, Neutral.
-
-Dataset
-
-Kaggle: Customer Feedback Dataset — https://www.kaggle.com/datasets/vishweshsalodkar/customer-feedback-dataset
-
-Preprocessing & Tokenization
-
-Missing/duplicate text remove karna
-
-Text cleaning (lowercase, punctuation handling)
-
-BERT tokenizer use karna (bert-base-uncased)
-
-Max length: 128 tokens
-
-Train/Validation split: 80/20
-
-Training Pipeline (summary)
-
-Model: bert-base-uncased
-
-Loss: CrossEntropyLoss
-
-Batch size: 16
-
-Optimizer: AdamW
-
-Scheduler: warmup steps + linear LR decay
-
-Epochs: 3–5
-
-Evaluation Metrics
-
-Accuracy
-
-F1-score (macro & weighted)
-
-Confusion matrix
-
-Example metrics (illustrative):
+Example output:
 Accuracy: 0.91
 F1-Score: 0.90
 
-Example Predictions (illustrative)
+shell
+Copy code
 
-Input: "The service was amazing!" → Prediction: Positive
-Input: "I am not satisfied with the product quality." → Prediction: Negative
+### Example Predictions
+Input: "The service was amazing!"
+Prediction: Positive
 
-🤖 Task 2: GPT-2 / LLaMA — Pseudo-code to Python Code Generation
-Objective
+Input: "I am not satisfied with the product quality."
+Prediction: Negative
 
-Decoder-only model ko train karna taake structured pseudo-code ko syntactically aur semantically valid Python code mein translate kare.
+yaml
+Copy code
 
-Dataset
+---
 
-SPOC (pseudo-code → code): https://github.com/sumith1896/spoc
+# 🤖 Task 2: GPT-2 / LLaMA — Pseudo-code to Python Code Generation
 
-Research paper: https://arxiv.org/pdf/1906.04908
+## Objective
+Train a decoder-only language model to translate **structured pseudo-code** into fully working, valid Python code.
 
-Preprocessing
+### Dataset
+SPOC Pseudocode → Code dataset  
+https://github.com/sumith1896/spoc  
+Paper: https://arxiv.org/pdf/1906.04908
 
-Load pseudo-code / code pairs
+### Preprocessing
+- Loaded pseudo-code → Python code pairs
+- Stripped formatting inconsistencies
+- Added special tokens: `<|pseudo|>` `<|code|>`
+- Prepared text for causal LM training
 
-Normalize formatting; strip inconsistent whitespace/indentation
+### Fine-Tuning on GPT-2
+- Model: **GPT-2 / GPT-2-medium**
+- Objective: Causal Language Modeling (CLM)
+- Optimizer: AdamW
+- Sequence length: 512
+- Epochs: 5–10
+- Trained to generate clean Python code
 
-Add special delimiters/tokens (example: <|pseudo|> and <|code|>) to separate input from target
+### Evaluation Metrics
+- BLEU
+- CodeBLEU
+- Human Evaluation
 
-Prepare sequences for causal LM training
-
-Fine-Tuning (summary)
-
-Model: GPT-2 ya GPT-2-medium (ya LLaMA if available)
-
-Objective: Causal Language Modeling
-
-Optimizer: AdamW
-
-Sequence length: e.g., 512
-
-Epochs: 5–10 (dataset-dependent)
-
-Evaluation Metrics
-
-BLEU
-
-CodeBLEU
-
-Human evaluation (manual checks for correctness and runtime)
-
-Example scores (illustrative):
+Example:
 BLEU Score: 0.78
 CodeBLEU: 0.81
 
-Live Interface
+css
+Copy code
 
-Include a Streamlit or Gradio app for real-time pseudo-code → code generation.
-Example pseudo-code input: READ N; IF N is even PRINT "YES" ELSE PRINT "NO"
-Generated Python (example):
+### Live Interface
+A **Streamlit/Gradio app** is included for real-time code generation.
+
+streamlit run app.py
+
+makefile
+Copy code
+
+Example:
+Pseudo-code:
+READ N
+IF N is even PRINT "YES" ELSE PRINT "NO"
+
+Generated Python:
 n = int(input())
 if n % 2 == 0:
- print("YES")
+print("YES")
 else:
- print("NO")
-
-Installation (instructions as plain text)
-
-Clone the repo: git clone https://github.com/yourusername/NLP-Dual-Finetuning-Suite.git
-
-Change directory: cd NLP-Dual-Finetuning-Suite
-
-Install dependencies: pip install -r requirements.txt
-
-(Adjust model names / GPU settings according to your environment.)
-
-Technologies Used
-
-PyTorch
-
-HuggingFace Transformers
-
-Scikit-learn
-
-Pandas / NumPy
-
-Streamlit or Gradio
-
-Matplotlib
-
-Contributions
-
-Contributions, issues, and pull requests are welcome. Please open an issue to discuss major changes.
+print("NO")
